@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Background Selection</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Archivo Black', sans-serif;
+    }
+    
+    body {
+      background-color: #0A101A;
+      color: white;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .back-btn {
+      position: fixed;
+      left: 20px;
+      top: 20px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      z-index: 100;
+    }
+    
+    .header {
+      text-align: center;
+      margin: 40px auto 20px;
+      max-width: 70%;
+    }
+    
+    .header-box {
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      font-family: 'Roboto', sans-serif;
+      padding: 10px 25px;
+      border-radius: 25px;
+      background-color: #5627B8;
+      border: 2px solid rgba(255,255,255,0.3);
+      box-shadow: 0 2px 10px #0A101A;
+    }
+    
+    .image-preview {
+      width: 100%;
+      height: 300px;
+      background-color: #2e2b45;
+      border-radius: 8px;
+      margin: 20px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .preview-title {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    
+    .preview-text {
+      position: absolute;
+      bottom: 20px;
+      font-size: 16px;
+    }
+    
+    .background-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 20px 0;
+    }
+    
+    .bg-option {
+      height: 100px;
+      border-radius: 8px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 8px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    
+    .bg-option:hover {
+      transform: scale(1.05);
+    }
+    
+    .bg-label {
+      background-color: rgba(0,0,0,0.7);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    
+    .action-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    
+    .action-btn {
+      background: linear-gradient(90deg, #E28B66, #5627B8);
+      border: none;
+      color: white;
+      padding: 10px 0;
+      border-radius: 20px;
+      font-size: 12px;
+      cursor: pointer;
+      flex: 1;
+      margin: 0 5px;
+      max-width: 18%;
+    }
+  </style>
+</head>
+<body>
+  <button class="back-btn">←</button>
+  
+  <div class="header">
+    <div class="header-box">Background Selection</div>
+  </div>
+  
+  <div class="image-preview">
+    <div class="preview-title">Generated Image</div>
+    <div class="preview-text">Your image will appear here</div>
+  </div>
+  
+  <div class="background-grid">
+    <div class="bg-option" style="background-color: #2e2b45;">
+      <span class="bg-label">Solid Color</span>
+    </div>
+    <div class="bg-option" style="background-color: #5627B8;">
+      <span class="bg-label">Purple</span>
+    </div>
+    <div class="bg-option" style="background-color: #E28B66;">
+      <span class="bg-label">Orange</span>
+    </div>
+    <div class="bg-option" style="background-color: #4CAF50;">
+      <span class="bg-label">Green</span>
+    </div>
+    <div class="bg-option" style="background-color: #2196F3;">
+      <span class="bg-label">Blue</span>
+    </div>
+    <div class="bg-option" style="background-color: #FF9800;">
+      <span class="bg-label">Amber</span>
+    </div>
+  </div>
+  
+  <div class="action-buttons">
+    <button class="action-btn">Remove</button>
+    <button class="action-btn">Ask</button>
+    <button class="action-btn">Copy</button>
+    <button class="action-btn">Test</button>
+    <button class="action-btn">Ribor</button>
+  </div>
+
+  <script>
+    // Back button functionality
+    document.querySelector('.back-btn').addEventListener('click', function() {
+      window.history.back();
+    });
+    
+    // Background selection functionality
+    const bgOptions = document.querySelectorAll('.bg-option');
+    const imagePreview = document.querySelector('.image-preview');
+    
+    bgOptions.forEach(option => {
+      option.addEventListener('click', function() {
+        // Get the background style of the selected option
+        const bgStyle = this.style.background;
+        
+        // Apply it to the preview
+        imagePreview.style.background = bgStyle;
+        document.querySelector('.preview-title').textContent = "Preview";
+      });
+    });
+    
+    // Action buttons functionality
+    const actionButtons = document.querySelectorAll('.action-btn');
+    actionButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        alert(`${this.textContent} button clicked`);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checker - Sign Up / Sign In</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Baloo+Da+2:wght@400;500&family=Segoe+UI&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0A101A;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .container {
+      width: 90%;
+      max-width: 400px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .title {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.8rem;
+      text-align: center;
+      margin: 0.5rem 0 1rem 0;
+      width: 100%;
+    }
+    .subtitle {
+      font-family: 'Baloo Da 2', sans-serif;
+      text-align: center;
+      font-size: 1rem;
+      color: #ccc;
+      margin-bottom: 2rem;
+      width: 100%;
+    }
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border-radius: 12px;
+      border: none;
+      background-color: #241e1e;
+      color: white;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    .checkbox {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    .checkbox label {
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+    .btn {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(90deg, #E28B66, #5627B8);
+      color: white;
+      cursor: pointer;
+      margin-bottom: 1rem;
+      box-sizing: border-box;
+    }
+    .btn:disabled {
+      background: #555;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+    .social-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .social-btn {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border-radius: 10px;
+      border: 1px solid #333;
+      background-color: #1c1c1c;
+      color: white;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-sizing: border-box;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      width: 100%;
+    }
+    .footer a {
+      color: #a473ff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .hidden {
+      display: none;
+    }
+    .error-message {
+      color: #ff6b6b;
+      font-size: 0.8rem;
+      margin-top: -0.5rem;
+      margin-bottom: 1rem;
+      width: 100%;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="./get.html" class="back-button">←</a>
+    
+    <div class="title" id="form-title">Join Outfit Checker</div>
+    <div class="subtitle" id="form-subtitle">Step into your style. One click closer to your perfect fit!</div>
+
+    <!-- Sign Up Form -->
+    <form id="signup-form">
+      <input type="text" id="fullName" placeholder="Full Name" required />
+      <div id="nameError" class="error-message hidden"></div>
+      
+      <input type="email" id="email" placeholder="Email Address" required />
+      <div id="emailError" class="error-message hidden"></div>
+      
+      <input type="password" id="password" placeholder="Password" required minlength="6" />
+      <div id="passwordError" class="error-message hidden"></div>
+      
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+      <div id="confirmError" class="error-message hidden"></div>
+      
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" id="termsCheck" /> I want to receive fashion tips and updates.
+        </label>
+      </div>
+      <button type="submit" class="btn" id="signupBtn" disabled>Sign Up</button>
+    </form>
+
+    <!-- Sign In Form -->
+    <form id="signin-form" class="hidden">
+      <input type="email" id="loginEmail" placeholder="Email Address" required />
+      <div id="loginEmailError" class="error-message hidden"></div>
+      
+      <input type="password" id="loginPassword" placeholder="Password" required />
+      <div id="loginPasswordError" class="error-message hidden"></div>
+      
+      <button type="submit" class="btn" id="signinBtn" disabled>Sign In</button>
+    </form>
+
+    <div class="social-container">
+      <div class="social-btn">
+        <img src="./logo/icons8-google-logo-48.png" alt="Google" width="20" /> Continue with Google
+      </div>
+      <div class="social-btn">
+        <img src="./logo/social_14047477.png" alt="Apple" width="20" /> Continue with Apple
+      </div>
+    </div>
+
+    <div class="footer">
+      <span id="toggle-text">Already have an account? <a onclick="toggleForm()">Sign In</a></span>
+    </div>
+  </div>
+
+  <script>
+    // Form elements
+    const signupForm = document.getElementById("signup-form");
+    const signinForm = document.getElementById("signin-form");
+    const formTitle = document.getElementById("form-title");
+    const formSubtitle = document.getElementById("form-subtitle");
+    const toggleText = document.getElementById("toggle-text");
+    
+    // Sign Up elements
+    const signupBtn = document.getElementById("signupBtn");
+    const fullName = document.getElementById("fullName");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const confirmPassword = document.getElementById("confirmPassword");
+    const termsCheck = document.getElementById("termsCheck");
+    
+    // Sign In elements
+    const signinBtn = document.getElementById("signinBtn");
+    const loginEmail = document.getElementById("loginEmail");
+    const loginPassword = document.getElementById("loginPassword");
+
+    // Error elements
+    const errorElements = {
+      nameError: document.getElementById("nameError"),
+      emailError: document.getElementById("emailError"),
+      passwordError: document.getElementById("passwordError"),
+      confirmError: document.getElementById("confirmError"),
+      loginEmailError: document.getElementById("loginEmailError"),
+      loginPasswordError: document.getElementById("loginPasswordError")
+    };
+
+    // Toggle between forms
+    function toggleForm() {
+      if (signupForm.classList.contains("hidden")) {
+        signupForm.classList.remove("hidden");
+        signinForm.classList.add("hidden");
+        formTitle.textContent = "Join Outfit Checker";
+        formSubtitle.textContent = "Step into your style. One click closer to your perfect fit!";
+        toggleText.innerHTML = 'Already have an account? <a onclick="toggleForm()">Sign In</a>';
+      } else {
+        signupForm.classList.add("hidden");
+        signinForm.classList.remove("hidden");
+        formTitle.textContent = "Welcome Back";
+        formSubtitle.textContent = "Sign in to explore your AI-powered fashion journey.";
+        toggleText.innerHTML = 'Don\'t have an account? <a onclick="toggleForm()">Sign Up</a>';
+      }
+    }
+
+    // Validate email format
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(String(email).toLowerCase());
+    }
+
+    // Validate password strength (at least 6 characters)
+    function validatePassword(password) {
+      return password.length >= 6;
+    }
+
+    // Show error message
+    function showError(element, message) {
+      element.textContent = message;
+      element.classList.remove("hidden");
+    }
+
+    // Hide error message
+    function hideError(element) {
+      element.textContent = "";
+      element.classList.add("hidden");
+    }
+
+    // Check if all sign up fields are valid
+    function checkSignUpValidity() {
+      const isNameValid = fullName.value.trim() !== "";
+      const isEmailValid = validateEmail(email.value);
+      const isPasswordValid = validatePassword(password.value);
+      const isConfirmValid = password.value === confirmPassword.value;
+      
+      signupBtn.disabled = !(isNameValid && isEmailValid && isPasswordValid && isConfirmValid);
+    }
+
+    // Check if all sign in fields are valid
+    function checkSignInValidity() {
+      const isEmailValid = validateEmail(loginEmail.value);
+      const isPasswordValid = loginPassword.value.trim() !== "";
+      
+      signinBtn.disabled = !(isEmailValid && isPasswordValid);
+    }
+
+    // Sign Up form validation
+    signupForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      let isValid = true;
+      
+      // Validate full name
+      if (fullName.value.trim() === "") {
+        showError(errorElements.nameError, "Full name is required");
+        isValid = false;
+      } else {
+        hideError(errorElements.nameError);
+      }
+      
+      // Validate email
+      if (!validateEmail(email.value)) {
+        showError(errorElements.emailError, "Please enter a valid email");
+        isValid = false;
+      } else {
+        hideError(errorElements.emailError);
+      }
+      
+      // Validate password
+      if (!validatePassword(password.value)) {
+        showError(errorElements.passwordError, "Password must be at least 6 characters");
+        isValid = false;
+      } else {
+        hideError(errorElements.passwordError);
+      }
+      
+      // Validate password confirmation
+      if (password.value !== confirmPassword.value) {
+        showError(errorElements.confirmError, "Passwords do not match");
+        isValid = false;
+      } else {
+        hideError(errorElements.confirmError);
+      }
+      
+      // If all valid, proceed to next page
+      if (isValid) {
+        window.location.href = "./home.html"; // Change to your desired page
+      }
+    });
+
+    // Sign In form validation
+    signinForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      let isValid = true;
+      
+      // Validate email
+      if (!validateEmail(loginEmail.value)) {
+        showError(errorElements.loginEmailError, "Please enter a valid email");
+        isValid = false;
+      } else {
+        hideError(errorElements.loginEmailError);
+      }
+      
+      // Validate password
+      if (loginPassword.value.trim() === "") {
+        showError(errorElements.loginPasswordError, "Password is required");
+        isValid = false;
+      } else {
+        hideError(errorElements.loginPasswordError);
+      }
+      
+      // If all valid, proceed to next page
+      if (isValid) {
+        window.location.href = "./home.html"; // Change to your desired page
+      }
+    });
+
+    // Real-time validation for Sign Up form
+    fullName.addEventListener("input", () => {
+      if (fullName.value.trim() === "") {
+        showError(errorElements.nameError, "Full name is required");
+      } else {
+        hideError(errorElements.nameError);
+      }
+      checkSignUpValidity();
+    });
+
+    email.addEventListener("input", () => {
+      if (!validateEmail(email.value)) {
+        showError(errorElements.emailError, "Please enter a valid email");
+      } else {
+        hideError(errorElements.emailError);
+      }
+      checkSignUpValidity();
+    });
+
+    password.addEventListener("input", () => {
+      if (!validatePassword(password.value)) {
+        showError(errorElements.passwordError, "Password must be at least 6 characters");
+      } else {
+        hideError(errorElements.passwordError);
+      }
+      
+      if (confirmPassword.value && password.value !== confirmPassword.value) {
+        showError(errorElements.confirmError, "Passwords do not match");
+      } else {
+        hideError(errorElements.confirmError);
+      }
+      checkSignUpValidity();
+    });
+
+    confirmPassword.addEventListener("input", () => {
+      if (password.value !== confirmPassword.value) {
+        showError(errorElements.confirmError, "Passwords do not match");
+      } else {
+        hideError(errorElements.confirmError);
+      }
+      checkSignUpValidity();
+    });
+
+    // Real-time validation for Sign In form
+    loginEmail.addEventListener("input", () => {
+      if (!validateEmail(loginEmail.value)) {
+        showError(errorElements.loginEmailError, "Please enter a valid email");
+      } else {
+        hideError(errorElements.loginEmailError);
+      }
+      checkSignInValidity();
+    });
+
+    loginPassword.addEventListener("input", () => {
+      if (loginPassword.value.trim() === "") {
+        showError(errorElements.loginPasswordError, "Password is required");
+      } else {
+        hideError(errorElements.loginPasswordError);
+      }
+      checkSignInValidity();
+    });
+
+    // Initial check
+    checkSignUpValidity();
+    checkSignInValidity();
+  </script>
+</body>
+</html>

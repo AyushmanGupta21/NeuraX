@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+  <style>
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0e0d1a;
+      color: white;
+    }
+
+    .container {
+      max-width: 420px;
+      margin: auto;
+      padding: 20px 16px;
+    }
+
+    .header-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .back-button {
+      margin-right: 16px;
+      cursor: pointer;
+      font-size: 20px;
+      color: #ed6eb1;
+    }
+
+    .header {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 24px;
+      font-weight: bold;
+      flex: 1;
+    }
+
+    .profile-card {
+      display: flex;
+      align-items: center;
+      background-color: #0A101A;
+      padding: 16px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+
+    .profile-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: #2a2b3d;
+      border: 2px dashed #ed6eb1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: #ed6eb1;
+      margin-right: 16px;
+    }
+
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .profile-info h3 {
+      font-family: 'Archivo Black', sans-serif;
+      margin: 0;
+      font-size: 18px;
+      background: linear-gradient(90deg, #f39790, #b07cf3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .profile-info p {
+      margin: 4px 0 0;
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    .settings-list {
+      background-color: #1a1b2e;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .setting-item {
+      display: flex;
+      align-items: center;
+      padding: 14px 16px;
+      border-bottom: 1px solid #2e2e45;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .setting-item:last-child {
+      border-bottom: none;
+    }
+
+    .setting-item:hover {
+      background-color: #292b3e;
+    }
+
+    .setting-icon {
+      width: 24px;
+      margin-right: 16px;
+      text-align: center;
+      font-size: 18px;
+      color: #ed6eb1;
+    }
+
+    .setting-text {
+      flex: 1;
+      font-size: 16px;
+    }
+
+    .setting-sub {
+      font-size: 14px;
+      color: #888;
+    }
+
+    .banner {
+      margin: 16px 0;
+      font-family: 'Archivo Black', sans-serif;
+      padding: 12px;
+      background: linear-gradient(90deg, #f39790, #b07cf3);
+      border-radius: 12px;
+      text-align: center;
+      font-weight: bold;
+      color: white;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header-container">
+      <div class="back-button" >
+        <a href="./home.html" style="text-decoration: none; color: #ed6eb1;">
+        <i class="fas fa-arrow-left"></i></a>
+      </div>
+      <div class="header">Settings</div>
+    </div>
+
+    <!-- Profile Section -->
+    <div class="profile-card">
+      <div class="profile-icon">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="profile-info">
+        <h3>Your Name</h3>
+        <p>@username</p>
+      </div>
+    </div>
+
+    <!-- Banner -->
+    <div class="banner">👑 Cut & Paste Photos Pro</div>
+
+    <!-- Settings List -->
+    <div class="settings-list">
+      <div class="setting-item">
+        <div class="setting-icon"><i class="fas fa-globe"></i></div>
+        <div class="setting-text">Language</div>
+        <div class="setting-sub">English</div>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon"><i class="fas fa-comment-dots"></i></div>
+        <div class="setting-text">Feedback</div>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon"><i class="fas fa-share-alt"></i></div>
+        <div class="setting-text">Share with Friends</div>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon"><i class="fas fa-star"></i></div>
+        <div class="setting-text">Rate Us</div>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon"><i class="fas fa-shield-alt"></i></div>
+        <div class="setting-text">Privacy Policy</div>
+      </div>
+      <div class="setting-item">
+        <div class="setting-icon"><i class="fas fa-book"></i></div>
+        <div class="setting-text">Terms of Use</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // You can add custom back functionality here if needed
+    document.querySelector('.back-button').addEventListener('click', function() {
+      // Custom back behavior or navigation
+      window.history.back();
+    });
+  </script>
+</body>
+</html>

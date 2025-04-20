@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload Your Look</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #0e0d1a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 420px;
+      width: 100%;
+      background-color: #0A101A;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(120, 107, 107, 0.4);
+    }
+
+    h2 {
+      font-size: 24px;
+      font-family: 'Archivo Black', sans-serif;
+      font-weight: bold;
+      text-align: center;
+      background: linear-gradient(90deg, #f39790, #b07cf3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    input[type="file"],
+    input[type="url"] {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 16px;
+      width: 100%;
+      padding: 12px;
+      background: #262646;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    input[type="url"]::placeholder {
+      color: #aaa;
+    }
+
+    .preview-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #f89c50, #452878);
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      text-align: center;
+      display: block;
+      text-decoration: none;
+    }
+
+    .preview-btn:hover {
+      background: linear-gradient(90deg, #e0559c, #804be1);
+    }
+    
+    .preview-btn:disabled {
+      background: #666;
+      cursor: not-allowed;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 18px;
+      font-size: 14px;
+      color: #aaa;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .error-message {
+      color: #ff6b6b;
+      font-size: 14px;
+      margin-top: -10px;
+      margin-bottom: 15px;
+      display: none;
+    }
+    
+    .loading-spinner {
+      display: none;
+      margin: 10px auto;
+      text-align: center;
+      color: #aaa;
+    }
+    
+    .progress-text {
+      margin-top: 8px;
+      font-size: 14px;
+    }
+    
+    .spinner {
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid #b07cf3;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Get Your Look</h2>
+
+    <form id="tryOnForm">
+      <label for="photo">Upload your photo</label>
+      <input type="file" id="photo" accept="image/*" required>
+      
+      <label for="dressUrl">Paste clothing link</label>
+      <input type="url" id="dressUrl" placeholder="https://amazon.com/item/123" required>
+      
+      <div id="errorMessage" class="error-message">Please provide both a photo and a clothing link</div>
+      
+      <div id="loadingSpinner" class="loading-spinner">
+        <div class="spinner"></div>
+        <div class="progress-text" id="progressText">Processing...</div>
+      </div>
+      
+      <button type="button" id="previewButton" class="preview-btn">See Try-On Preview</button>
+    </form>
+
+    <a href="#" class="back-link">← Go Back</a>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const photoInput = document.getElementById('photo');
+      const urlInput = document.getElementById('dressUrl');
+      const errorMessage = document.getElementById('errorMessage');
+      const previewButton = document.getElementById('previewButton');
+      const loadingSpinner = document.getElementById('loadingSpinner');
+      const progressText = document.getElementById('progressText');
+      
+      // Sample dress images for demo purposes
+      const demoImages = [
+        "https://i.imgur.com/DhQCc0K.png",
+        "https://i.imgur.com/c8QZ8TK.png",
+        "https://i.imgur.com/VW2VmDy.png",
+        "https://i.imgur.com/3w7os0f.jpeg"
+      ];
+      
+      async function extractProductImage(amazonUrl) {
+        progressText.textContent = "Extracting product from Amazon...";
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        return {
+          success: true,
+          image_url: demoImages[0]
+        };
+      }
+      
+      async function extractClothing(productImageUrl) {
+        progressText.textContent = "Extracting clothing item...";
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        return {
+          success: true,
+          image_url: demoImages[1]
+        };
+      }
+      
+      async function processVirtualTryOn(userPhotoFile, extractedClothingUrl) {
+        progressText.textContent = "Generating virtual try-on...";
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Choose a random demo image for variety
+        const randomImage = demoImages[Math.floor(Math.random() * demoImages.length)];
+        
+        return {
+          success: true,
+          image_url: randomImage
+        };
+      }
+      
+      previewButton.addEventListener('click', async function() {
+        if (!photoInput.files.length || !urlInput.value) {
+          errorMessage.style.display = 'block';
+          return false;
+        }
+        
+        errorMessage.style.display = 'none';
+        previewButton.disabled = true;
+        loadingSpinner.style.display = 'block';
+        
+        try {
+          // Run the processing steps
+          const productResult = await extractProductImage(urlInput.value);
+          if (!productResult.success) throw new Error("Failed to extract product image");
+          
+          const clothingResult = await extractClothing(productResult.image_url);
+          if (!clothingResult.success) throw new Error("Failed to extract clothing");
+          
+          const tryOnResult = await processVirtualTryOn(photoInput.files[0], clothingResult.image_url);
+          if (!tryOnResult.success) throw new Error("Failed to generate virtual try-on");
+          
+          // Store the result URL in localStorage for the results page
+          localStorage.setItem('tryOnImageUrl', tryOnResult.image_url);
+          
+          // Redirect to the results page
+          window.location.href = 'last.html';
+          
+        } catch (error) {
+          console.error("Error:", error);
+          errorMessage.textContent = error.message || "Processing failed. Please try again.";
+          errorMessage.style.display = 'block';
+          loadingSpinner.style.display = 'none';
+          previewButton.disabled = false;
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generated Image</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Archivo Black', sans-serif;
+      background-color: #0A101A;
+      color: white;
+      min-height: 100vh;
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: center;
+      padding: 6px;
+      position: relative;
+      margin-top: 40px; /* Space for back button */
+    }
+    
+    .header-box {
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      
+      padding: 5px 10px;
+      border-radius: 25px;
+      background-color: #5627B8;
+      border: 2px solid rgba(255,255,255,0.3);
+      box-shadow: 0 2px 10px #0A101A;
+    }
+    
+    .back-btn {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      z-index: 100;
+    }
+    
+    .title {
+      font-family: 'Roboto', sans-serif;
+      font-size: 20px;
+      color: white;
+    }
+    
+    .editor-container {
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+    }
+    
+    .image-preview {
+      width: 100%;
+      height: 300px;
+      background-color: #2e2b45;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    
+    .preview-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    
+    .placeholder-text {
+      color: #aaa;
+      font-size: 16px;
+      display: none;
+    }
+    
+    .toolbar {
+      width: 100%;
+      background-color: #1e1e2f;
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .tool-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+    
+    .tool-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(90deg, #E28B66, #5627B8);
+      background-color: #8c52ff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+    
+    .tool-label {
+      font-size: 12px;
+    }
+    
+    .loading-message {
+      color: #aaa;
+      font-size: 16px;
+      text-align: center;
+    }
+    
+    .error-message {
+      color: #ff6b6b;
+      font-size: 16px;
+      text-align: center;
+      display: none;
+    }
+    
+    .try-again-btn {
+      margin-top: 15px;
+      padding: 8px 16px;
+      background: linear-gradient(90deg, #f89c50, #452878);
+      border: none;
+      border-radius: 20px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <a href="vto.html"><button class="back-btn">←</button></a>
+  
+  <div class="header-container">
+    <div class="header-box">
+      <div class="title">Generated Image</div>
+    </div>
+  </div>
+  
+  <div class="editor-container">
+    <div class="image-preview" id="imagePreview">
+      <img id="previewImage" class="preview-image" style="display:none;">
+      <div class="placeholder-text" id="placeholderText">Your image will appear here</div>
+      <div class="loading-message" id="loadingMessage">Loading your generated image...</div>
+      <div class="error-message" id="errorMessage">
+        Error loading image. Please try again.
+        <br>
+        <button class="try-again-btn" id="tryAgainBtn">Try Again</button>
+      </div>
+    </div>
+    
+    <div class="toolbar">
+      <button class="tool-button">
+        <div class="tool-icon">B</div>
+        <div class="tool-label">Background</div>
+      </button>
+      
+      <button class="tool-button">
+        <div class="tool-icon">+</div>
+        <div class="tool-label">Add</div>
+      </button>
+      
+      <button class="tool-button">
+        <div class="tool-icon">✂</div>
+        <div class="tool-label">Crop</div>
+      </button>
+      
+      <button class="tool-button">
+        <div class="tool-icon">T</div>
+        <div class="tool-label">Text</div>
+      </button>
+      
+      <button class="tool-button">
+        <div class="tool-icon">S</div>
+        <div class="tool-label">Sticker</div>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const imagePreview = document.getElementById('imagePreview');
+      const previewImage = document.getElementById('previewImage');
+      const placeholderText = document.getElementById('placeholderText');
+      const loadingMessage = document.getElementById('loadingMessage');
+      const errorMessage = document.getElementById('errorMessage');
+      const tryAgainBtn = document.getElementById('tryAgainBtn');
+      
+      // Get the image URL from localStorage
+      const tryOnImageUrl = localStorage.getItem('tryOnImageUrl');
+      
+      // For demonstration, use fallback image if none found
+      const fallbackImage = "https://i.imgur.com/DhQCc0K.png";
+      
+      function loadImage(url) {
+        // Show loading, hide other messages
+        loadingMessage.style.display = 'block';
+        placeholderText.style.display = 'none';
+        errorMessage.style.display = 'none';
+        previewImage.style.display = 'none';
+        
+        // Set image source
+        previewImage.src = url;
+        
+        // When image loads successfully
+        previewImage.onload = function() {
+          loadingMessage.style.display = 'none';
+          previewImage.style.display = 'block';
+        };
+        
+        // Handle image load error
+        previewImage.onerror = function() {
+          loadingMessage.style.display = 'none';
+          errorMessage.style.display = 'block';
+          tryAgainBtn.style.display = 'inline-block';
+        };
+      }
+      
+      // Try to load the image
+      if (tryOnImageUrl) {
+        loadImage(tryOnImageUrl);
+      } else {
+        // No image in localStorage, try fallback
+        loadImage(fallbackImage);
+      }
+      
+      // "Try Again" button handler
+      tryAgainBtn.addEventListener('click', function() {
+        // Try fallback image as last resort
+        loadImage(fallbackImage);
+      });
+    });
+  </script>
+</body>
+</html>
